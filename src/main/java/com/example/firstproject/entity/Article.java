@@ -1,10 +1,17 @@
 package com.example.firstproject.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@AllArgsConstructor
+@NoArgsConstructor //기본 생성자 추가
+@ToString
 @Entity //DB가 해당 객체(엔티티) 인식 가능
 public class Article {
 
@@ -18,13 +25,19 @@ public class Article {
     @Column
     private String content;
 
+    /*
+    //@AllArgsConstructor로 대체
     public Article(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
     }
+     */
 
-    @Override
+
+   /*
+   //@ToString으로 대체체
+   @Override
     public String toString() {
         return "Article{" +
                 "id=" + id +
@@ -32,4 +45,5 @@ public class Article {
                 ", content='" + content + '\'' +
                 '}';
     }
+    */
 }

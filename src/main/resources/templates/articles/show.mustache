@@ -1,0 +1,25 @@
+{{>layouts/header}}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#article}}
+        {{!모델에서 가져온 article 사용할 수 있는 범위}}
+        <tr>
+        <th>{{id}}</th>
+        <td>{{title}}</td>
+        <td>{{content}}</td>
+        </tr>
+    {{/article}}
+
+
+    </tbody>
+</table>
+
+{{>layouts/footer}}
