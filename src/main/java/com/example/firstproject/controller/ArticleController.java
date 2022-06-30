@@ -43,7 +43,7 @@ public class ArticleController {
         //System.out.println(saved.toString());
         log.info(saved.toString());
 
-        return "";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}")
@@ -73,5 +73,15 @@ public class ArticleController {
 
         //3. 뷰 페이지
         return "articles/index";
+    }
+
+    @GetMapping("/articles/{id}/edit")
+    //id는 url에 있는 id를 가져오는 거라 @PathVariable 사용
+    public String edit(@PathVariable Long id, Model model){
+        //수정할 기존 페이지 데이터 가져오기
+        Article origin = articleRepository.findById(id).orElse(null);
+        model.addAttribute("original", origin);
+        //보여줄 뷰 페이지
+        return "articles/edit";
     }
 }
