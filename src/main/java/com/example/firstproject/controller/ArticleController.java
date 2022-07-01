@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -84,4 +86,43 @@ public class ArticleController {
         //보여줄 뷰 페이지
         return "articles/edit";
     }
+
+    @PostMapping("/articles/update")
+    //update(ArticleForm form:dto 받아오기
+    public String update(ArticleForm form, Model model) {
+        //0. dto-form(id, title, content) 받아오기
+        log.info(form.toString());
+
+        //1. dto -> entity
+        Article upentity = form.toEntity();
+        //System.out.println(article.toString());
+        log.info(upentity.toString());
+
+        //2. entity를 db에 저장
+        //2-1. db에 있는 기존 데이터를 가져온다 - 위에서 수정한 게시물의 id와 일치하는 애!
+        Article orientity = articleRepository.findById(upentity.getId()).orElse(null);
+        //2-2. 기존 데이터에 값을 갱신한다
+        if (orientity != null) {
+            articleRepository.save(upentity); //orientity가 있다면 upentity로 갱신!
+        }
+
+        //3. 수정 결과 뷰페이지 출력
+        return "redirect:/articles/" + upentity.getId();
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    //id는 url에 있는 id를 가져오는 거라 @PathVariable 사용
+    public String delete(@PathVariable Long id, RedirectAttributes rttr){
+        log.info("삭제요청이 들어왔습니다.");
+        //삭제할 페이지 데이터 가져오기
+        Article articleentity = articleRepository.findById(id).orElse(null);
+        //삭제하기
+        if (articleentity != null){
+            articleRepository.delete(articleentity);
+            rttr.addFlashAttribute("msg", "삭제 완료");
+        }
+        //보여줄 결과 페이지로 리다이렉트
+        return "redirect:/articles";
+    }
+
 }
