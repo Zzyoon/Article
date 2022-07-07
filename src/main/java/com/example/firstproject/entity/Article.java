@@ -23,6 +23,16 @@ public class Article {
     @Column
     private String content;
 
+    public void patch(Article newarticle) {
+        //수정엔티티(newarticle)에 해당 변수?가 있다면! 업데이트해주기
+        if(newarticle.title != null){
+            this.title = newarticle.title;
+        }
+        if(newarticle.content != null){
+            this.content = newarticle.content;
+        }
+    }
+
 
 
     /*
