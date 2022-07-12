@@ -34,7 +34,7 @@ class ArticleServiceTest {
     }
 
     @Test
-    void show_성공__존재하는_id_입() {
+    void show_성공__존재하는_id_입력() {
         Long id = 1L;
         //예상
         Article expected = new Article(id, "가가가가", "1111");
