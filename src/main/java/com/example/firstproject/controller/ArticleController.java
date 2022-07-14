@@ -1,8 +1,12 @@
 package com.example.firstproject.controller;
 
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.CommentDto;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.repository.CommentRepository;
+import com.example.firstproject.restapi.CommentApiController;
+import com.example.firstproject.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,9 @@ public class ArticleController {
 
     @Autowired //스프링부트가 미리 생성해놓은 객체 가져다가 자동 연결 *따로 new로 객체 생성 필요없
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/articles/new")
     public String newArticleForm(){
@@ -55,10 +62,13 @@ public class ArticleController {
         //1. id로 데이터를 가져옴 (entity형태로)
         //리파지토리를 통해 ID를 통해 가져온 값을 아티클 타입의 articleEntity변수에 저장! 해당 id 없으면 null반환
         Article articleEntity = articleRepository.findById(id).orElse(null);
-
+        //1-1. CommentDto목록 가져온 후
+        List<CommentDto> commentDtos = commentService.comments(id);
         //2. 가져온 데이터(articleEntity)를 모델에 등록 - MODEL //model사용하기 위해선 show(파라메터에 model 등록!
         //모델에 article이란 이름으로 articleEntity 등록(추가)!
         model.addAttribute("article", articleEntity);
+        //2-1. commentDtos데이터 모델에 등록!
+        model.addAttribute("commentDtos", commentDtos);
 
         //3. 보여줄 페이지 설정 - VIEW ; articles > show.mustache
         return "articles/show";

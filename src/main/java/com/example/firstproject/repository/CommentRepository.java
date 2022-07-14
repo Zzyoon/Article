@@ -1,5 +1,7 @@
 package com.example.firstproject.repository;
 
+import com.example.firstproject.dto.CommentDto;
+import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +16,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     //@Query(value = "SELECT * FROM COMMENT WHERE nickname = :Nickname",nativeQuery = true)
     //@Query 대신 네이티브 쿼리 xml로 작성해보자!
     List<Comment> findByNickname(String Nickname);
+
 }
